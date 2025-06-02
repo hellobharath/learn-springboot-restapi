@@ -9,3 +9,11 @@ This file is to follow the steps taken to create this project.
 
 -------------------------------------------------------------------------------------------
 
+1. Adding @ResponseBody annotation to create a view for each of the controller methods is repetitive. Hence add
+    @RestController (which is a combo of @Controller and @ResponseBody)
+
+2. Create a bean HelloWorldBean and return it. Create a new class for the same with constructor, getter, setter, etc..
+    and return it. Add a corresponding endpoint to return this bean
+
+    This bean is now being returned as a JSON. This magic is done by Jackson which maps java beans to HTTP/JSON response
+    (which is further included by spring-boot-starter-web)
