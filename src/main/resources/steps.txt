@@ -1,0 +1,11 @@
+This file is to follow the steps taken to create this project.
+
+1. Create the repository, init with git and push it to remote
+2. Create a HelloWorldResource class file which returns hello-world string at hello-world endpoint
+3. For the same, add a @Controller (to specify it as a controller which routes the incoming http requests,
+    and add a @RequestMapping(<endpoint>) to mention the path mapping
+4. Since spring expects a view with the same name, add another annotation - @ResponseBody -> which will create a view
+    with the same name to display the response
+
+-------------------------------------------------------------------------------------------
+
