@@ -47,3 +47,14 @@ Survey REST API:
      the controller
   b. Add a method to retrieve all surveys (invoking a method call to the service class). Add a corresponding method in
      SurveyService class to retrieve the survey list, with a @RequestMapping to the getter method
+
+2. Retrieve each survey -> GET /surveys/{surveyId}
+
+  a. This will be done using @PathVariable
+  b. Logic can be implemented by using normal java code (to iterate through the surveys list and return the survey with
+     the matching id, or else null), or else it can be returned using functional programming construct (stream.filter)
+
+  c. Success returns a 200 OK response, not found also returns a 200 (even though a null)
+     Hence we need to handle it in the controller method by throwing a ResponseStatusException with 404 status
+
+  d. To inspect the response -> right click in browser -> inspect -> network -> doc

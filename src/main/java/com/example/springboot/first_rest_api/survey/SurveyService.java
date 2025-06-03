@@ -2,9 +2,8 @@ package com.example.springboot.first_rest_api.survey;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
 
 @Service
 public class SurveyService {
@@ -34,5 +33,31 @@ public class SurveyService {
 
     public List<Survey> retrieveAllSurveys() {
         return surveys;
+    }
+
+    public Survey retrieveSurveyById(String surveyId) {
+        // Below code is by using normal logic
+//        Survey retrievedSurvey = new Survey();
+//
+//        for(Survey survey : surveys) {
+//            if(survey.getId().equals(surveyId))
+//                retrievedSurvey = survey;
+//            else
+//                retrievedSurvey.setId("Invalid Survey");
+//        }
+//        return retrievedSurvey;
+
+        // Below code is by using Functional programming
+
+        // Lambda function to check for matching surveyId
+        Predicate<Survey> surveyPredicate = survey -> survey.getId().equalsIgnoreCase(surveyId);
+        // Using stream.filter to get the optional survey object with the predicate, and get the first matching instance
+        // Functional programming methods generally return optional due to the probability of the return value being null
+        Optional<Survey> optionalSurvey =
+                surveys.stream()
+                        .filter(surveyPredicate)
+                        .findFirst();
+        // If the value is not null, return it else return null
+        return optionalSurvey.orElse(null);
     }
 }

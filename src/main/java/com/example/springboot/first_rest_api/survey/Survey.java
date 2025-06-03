@@ -34,6 +34,10 @@ public class Survey {
         return questions;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Survey{" +

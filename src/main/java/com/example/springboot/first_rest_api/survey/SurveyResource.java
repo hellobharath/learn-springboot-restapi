@@ -1,7 +1,11 @@
 package com.example.springboot.first_rest_api.survey;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,5 +23,14 @@ public class SurveyResource {
     @RequestMapping("/surveys")
     public List<Survey> retrieveAllSurveys() {
         return surveyService.retrieveAllSurveys();
+    }
+
+    // GET /surveys/{surveyId}
+    @RequestMapping("/surveys/{surveyId}")
+    public Survey retrieveSurveyById(@PathVariable String surveyId) {
+        Survey surveyById = surveyService.retrieveSurveyById(surveyId);
+        if(surveyById == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return surveyById;
     }
 }
