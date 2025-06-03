@@ -58,3 +58,18 @@ Survey REST API:
      Hence we need to handle it in the controller method by throwing a ResponseStatusException with 404 status
 
   d. To inspect the response -> right click in browser -> inspect -> network -> doc
+
+---------------------------------------
+3. Request methods for REST api:
+
+a. GET -> retrieve details of a resource
+b. POST -> create new resource
+c. PUT -> Update existing resource
+d. PATCH -> update part of an existing resource
+e. DELETE -> delete a resource
+
+For API response, make sure to return the right statuses as well
+Ex: Resource not found -> 404, validation error -> 400, server exception -> 500, 200 -> success
+    201 -> created, 204 -> no content
+
+(refer to https://restfulapi.net/http-status-codes/)
