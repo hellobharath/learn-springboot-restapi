@@ -24,3 +24,26 @@ Path variable/Path params:
 REST URIs contain complex paths, some of them even being values (Ex: /users/Bharath/todos/1 -> Bharath and 1 are values,
 users and todos are path names). These are taken care by Path variable (refer /hello-world-path-param endpoint
 definition for details)
+**************************************************************
+
+Building a REST API: (Prerequisites)
+
+Key resources: Survey, Survey questions
+Key Details:
+    Survey -> id, title, description, questions
+    Questions -> id, description, options, correct answer
+
+1. Create Questions class with attributes, constructor, getters and toString()
+2. Repeat above step for Survey class also
+3. Create SurveyService (annotated with @Service to handle the business logic, and also to Spring IOC container to
+    manage this bean and inject dependencies), it's attributes and a static block to initialise with some data
+    (for the purpose of demonstrating this REST API)
+---------------------------------------------
+
+Survey REST API:
+1. Retrieve all surveys -> GET /surveys
+
+  a. Add a class SurveyResource as a controller, use constructor dependency injection to inject the SurveyService into
+     the controller
+  b. Add a method to retrieve all surveys (invoking a method call to the service class). Add a corresponding method in
+     SurveyService class to retrieve the survey list, with a @RequestMapping to the getter method
