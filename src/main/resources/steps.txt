@@ -17,3 +17,10 @@ This file is to follow the steps taken to create this project.
 
     This bean is now being returned as a JSON. This magic is done by Jackson which maps java beans to HTTP/JSON response
     (which is further included by spring-boot-starter-web)
+
+-----------------------------------
+Path variable/Path params:
+
+REST URIs contain complex paths, some of them even being values (Ex: /users/Bharath/todos/1 -> Bharath and 1 are values,
+users and todos are path names). These are taken care by Path variable (refer /hello-world-path-param endpoint
+definition for details)
