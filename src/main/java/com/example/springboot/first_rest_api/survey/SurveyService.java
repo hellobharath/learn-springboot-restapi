@@ -36,20 +36,8 @@ public class SurveyService {
     }
 
     public Survey retrieveSurveyById(String surveyId) {
-        // Below code is by using normal logic
-//        Survey retrievedSurvey = new Survey();
-//
-//        for(Survey survey : surveys) {
-//            if(survey.getId().equals(surveyId))
-//                retrievedSurvey = survey;
-//            else
-//                retrievedSurvey.setId("Invalid Survey");
-//        }
-//        return retrievedSurvey;
 
-        // Below code is by using Functional programming
-
-        // Lambda function to check for matching surveyId
+        // Lambda function to check for matching surveyId -> functional programming
         Predicate<Survey> surveyPredicate = survey -> survey.getId().equalsIgnoreCase(surveyId);
         // Using stream.filter to get the optional survey object with the predicate, and get the first matching instance
         // Functional programming methods generally return optional due to the probability of the return value being null
@@ -59,5 +47,21 @@ public class SurveyService {
                         .findFirst();
         // If the value is not null, return it else return null
         return optionalSurvey.orElse(null);
+    }
+
+    public List<Question> retrieveQuestionsForSurvey(String surveyId) {
+        Survey survey = retrieveSurveyById(surveyId);
+        if (survey == null)
+            return null;
+        return survey.getQuestions();
+    }
+
+    public Question retrieveQuestionById(String surveyId, String questionId) {
+        List<Question> questions = retrieveQuestionsForSurvey(surveyId);
+        Optional<Question> question =
+                questions.stream()
+                         .filter(question1 -> question1.getId().equalsIgnoreCase(questionId))
+                         .findFirst();
+        return question.orElse(null);
     }
 }

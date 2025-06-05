@@ -73,3 +73,9 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
     201 -> created, 204 -> no content
 
 (refer to https://restfulapi.net/http-status-codes/)
+---------------------------------
+4. Exercise:
+    Retrieve survey questions -> GET /surveys/{surveyId}/questions
+    Retrieve survey question by Id -> GET /surveys/{surveyId}/questions/{questionId}
+
+   Solution: Similar to the above steps (1, 2)
