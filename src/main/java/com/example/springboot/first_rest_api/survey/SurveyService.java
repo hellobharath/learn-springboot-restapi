@@ -64,4 +64,9 @@ public class SurveyService {
                          .findFirst();
         return question.orElse(null);
     }
+
+    public void addNewSurveyQuestion(String surveyId, Question question) {
+        List<Question> questions = retrieveQuestionsForSurvey(surveyId);
+        questions.add(question);
+    }
 }

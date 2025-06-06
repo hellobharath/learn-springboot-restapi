@@ -79,3 +79,13 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
     Retrieve survey question by Id -> GET /surveys/{surveyId}/questions/{questionId}
 
    Solution: Similar to the above steps (1, 2)
+----------------------------------
+5. Adding a new survey question:
+    POST /surveys/{surveyId}/questions
+
+    value = <endpoint uri>, method = Http method (GET, POST, PUT, etc..)
+    @RequestBody -> used to send a request as a parameter which goes to POST
+
+    Talend api tester -> test request api methods
+    Improvements -> User must not provide the question id, it must be auto generated
+                    For POST, we must not get 200 ok, we must get 201 created
