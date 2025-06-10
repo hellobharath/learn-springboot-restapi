@@ -1,9 +1,12 @@
 package com.example.springboot.first_rest_api.survey;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -52,8 +55,13 @@ public class SurveyResource {
 
     // POST /surveys/{surveyId}/questions
     @RequestMapping(value = "/surveys/{surveyId}/questions", method = RequestMethod.POST)
-    public void addNewSurveyQuestion(@PathVariable String surveyId, @RequestBody Question question) {
-        surveyService.addNewSurveyQuestion(surveyId, question);
+    public ResponseEntity<Object> addNewSurveyQuestion(@PathVariable String surveyId, @RequestBody Question question) {
+        String questionId = surveyService.addNewSurveyQuestion(surveyId, question);
+        // Best practice is to send the location of the API as part of the response -> Use ServletUriComponentBuilder
+        // /surveys/{surveyId}/questions/{questionId}
+        URI location = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("/{questionId}").buildAndExpand(questionId).toUri();
+        return ResponseEntity.created(location).build();
     }
 
 }

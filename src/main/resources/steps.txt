@@ -80,12 +80,21 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
 
    Solution: Similar to the above steps (1, 2)
 ----------------------------------
-5. Adding a new survey question:
-    POST /surveys/{surveyId}/questions
+5. a. Adding a new survey question:
+        POST /surveys/{surveyId}/questions
 
-    value = <endpoint uri>, method = Http method (GET, POST, PUT, etc..)
-    @RequestBody -> used to send a request as a parameter which goes to POST
+        value = <endpoint uri>, method = Http method (GET, POST, PUT, etc..)
+        @RequestBody -> used to send a request as a parameter which goes to POST
 
-    Talend api tester -> test request api methods
-    Improvements -> User must not provide the question id, it must be auto generated
-                    For POST, we must not get 200 ok, we must get 201 created
+        Talend api tester -> test request api methods
+        Improvements -> User must not provide the question id, it must be auto generated
+                        For POST, we must not get 200 ok, we must get 201 created
+
+    b. Improvements ->
+        Auto generate ID -> Using secure random class to generate ID, then pass it to a BigInteger and set it as a
+                            question id
+
+        Proper HTTP status -> need to give 201 for created rather than 200 OK
+                                we can use ResponseEntity create method
+
+                              This can be further enhanced to return the URI location

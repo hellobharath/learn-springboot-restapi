@@ -12,6 +12,10 @@ public class Question {
 
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public Question(String id, String description, List<String> options, String correctAnswer) {
         this.id = id;
         this.description = description;

@@ -2,6 +2,8 @@ package com.example.springboot.first_rest_api.survey;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -65,8 +67,16 @@ public class SurveyService {
         return question.orElse(null);
     }
 
-    public void addNewSurveyQuestion(String surveyId, Question question) {
+    public String addNewSurveyQuestion(String surveyId, Question question) {
         List<Question> questions = retrieveQuestionsForSurvey(surveyId);
+        question.setId(generateRandomId());
         questions.add(question);
+        return question.getId();
+    }
+
+    private static String generateRandomId() {
+        SecureRandom secureRandom = new SecureRandom();
+        String randomId = new BigInteger(32, secureRandom).toString();
+        return randomId;
     }
 }
