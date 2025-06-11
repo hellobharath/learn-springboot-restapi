@@ -84,7 +84,7 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
         POST /surveys/{surveyId}/questions
 
         value = <endpoint uri>, method = Http method (GET, POST, PUT, etc..)
-        @RequestBody -> used to send a request as a parameter which goes to POST
+        @RequestBody -> used to send a request as a parameter which goes to the particular REST method
 
         Talend api tester -> test request api methods
         Improvements -> User must not provide the question id, it must be auto generated
@@ -103,3 +103,6 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
     DELETE /surveys/{surveyId}/questions/{questionId}
 
     List.removeIf condition will allow to delete an element based on functional programming paradigm
+
+7. Update survey question:
+    PUT /surveys/{surveyId}/questions/{questionId}

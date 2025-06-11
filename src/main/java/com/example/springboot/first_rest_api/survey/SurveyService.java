@@ -91,4 +91,12 @@ public class SurveyService {
 
         return (!questionRemoved ? null : questionId);
     }
+
+    public void updateSurveyQuestion(String surveyId, String questionId, Question question) {
+        // Remove the question with the question with the provided question id and adding the new request body, thus
+        // performing an update operation
+        List<Question> questions = retrieveQuestionsForSurvey(surveyId);
+        questions.removeIf(question1 -> question1.getId().equalsIgnoreCase(questionId));
+        questions.add(question);
+    }
 }
