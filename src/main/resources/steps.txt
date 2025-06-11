@@ -98,3 +98,8 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
                                 we can use ResponseEntity create method
 
                               This can be further enhanced to return the URI location
+
+6. Delete survey question:
+    DELETE /surveys/{surveyId}/questions/{questionId}
+
+    List.removeIf condition will allow to delete an element based on functional programming paradigm
