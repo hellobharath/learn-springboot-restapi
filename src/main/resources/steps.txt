@@ -167,3 +167,36 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
 
     Above JPARepository interface also recursively extends PagingAndSortingRepository which provides the details of the
     entity as REST API endpoints (over localhost:8080)
+
+10. Unit and integration test for spring boot
+
+    Unit test -> testing a unit of functionality in any of the layers (controller/service/respository/entity)
+    Integration test -> testing the entire flow across all the layers of the application (controller -> service ->
+                        repository -> entity), or integration of multiple modules of the application/software
+
+  a.
+    Integration test 1 -> for GET /surveys/{surveyId}/questions/{questionId}
+    This will need loading spring application context, firing the request, verifying the response
+
+    @SpringBootTest -> Loads the entire spring application context
+    """ -> text block to hold a large text (ex: response in this case) -> feature from Java 15
+    @RestTemplate -> used to fire REST request to an endpoint
+    TestRestTemplate -> used to fire REST request in a junit test
+    webEnvironment = WebEnvironment.RANDOM_PORT -> this assigns a random port in the springboottest context
+    Autowire this on the TestRestTemplate so that the template gets to know of the specific port
+
+    Then write the test to fire the request using testresttemplate getForEntity, and assert on the recieved response
+    and the expected response
+
+    But this is tedious to compare as and when the json grows in size, and a small assertion error can be difficult to
+    troubleshoot also -> hence we can use JsonAssert in this case.
+
+    JSONAssert -> very good utility to compare json templates. Ignores spaces, and catches pinpoint discrepancies
+                  between the json field
+
+                  also it helps in asserting/testing on the important things, and not the things which we generally
+                  cannot control (like timestamp)
+
+                  strict parameter -> boolean value which helps in strict compare (all fields) if true
+                                      if false, only compares with the existing fields
+                                      (Ex: if we dont want to compare description, or timestamp)
