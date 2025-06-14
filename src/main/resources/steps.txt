@@ -106,3 +106,30 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
 
 7. Update survey question:
     PUT /surveys/{surveyId}/questions/{questionId}
+
+8. Springboot data JPA & springboot data REST
+
+  a.
+    Spring data JPA -> provides Java Persistence API to interact with the database
+    Spring data REST -> provides automatic REST endpoint creation for CRUD operations (exposing controller logic over
+                        REST)
+
+    Error:
+
+    "Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+    Reason: Failed to determine a suitable driver class"
+
+    This means we need to configure datasource URL (either H2 or other DB like mysql)
+
+    @Entity -> annotation for a class to be mapped to a DB table in JPA
+    @Id -> marks an attribute as a primary key
+    @GeneratedValue -> automatic generation of the value
+
+    Once the entity is configured, go to localhost/h2-console to view the H2 DB console and see the table (User table)
+    Check it's attributes.
+
+    Repository is created to interact with entity in terms of create, read, update and delete operations (CRUD)
+
+    JpaRepository -> Interface providing a set of methods for performing CRUD operations on a database, which will be
+                     extended by our repository class. It is a generic interface taking in our entity class and it's
+                     primary key

@@ -10,12 +10,12 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-public class SurveyResource {
+public class SurveyController {
 
     private SurveyService surveyService;
 
     // Constructor injection of surveyService into SurveyResource
-    public SurveyResource(SurveyService surveyService) {
+    public SurveyController(SurveyService surveyService) {
         this.surveyService = surveyService;
     }
 
@@ -75,7 +75,7 @@ public class SurveyResource {
         return ResponseEntity.noContent().build();
     }
 
-    // DELETE /surveys/{surveyId}/questions/{questionId}
+    // PUT /surveys/{surveyId}/questions/{questionId}
     @RequestMapping(path = "/surveys/{surveyId}/questions/{questionId}", method=RequestMethod.PUT)
     public ResponseEntity<Object> updateSurveyQuestion(@PathVariable String surveyId,
                                                        @PathVariable String questionId,
