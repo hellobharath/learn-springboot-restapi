@@ -160,3 +160,10 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
     Custom method to retrieve user by role -> add corresponding logic in UserDetailsRepository -> name should match the
     attribute name in the entity (here it is findByRole, if we name as findRole then it will create a query parsing
     error)
+
+9. Spring data rest
+
+    This is used to automatically expose CRUD operations as REST API endpoints
+
+    Above JPARepository interface also recursively extends PagingAndSortingRepository which provides the details of the
+    entity as REST API endpoints (over localhost:8080)
