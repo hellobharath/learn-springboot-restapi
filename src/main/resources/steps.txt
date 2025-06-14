@@ -128,8 +128,35 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
     Once the entity is configured, go to localhost/h2-console to view the H2 DB console and see the table (User table)
     Check it's attributes.
 
+    JDBC Url can be configured in the application properties for consistency, else the application loads new connection
+    url for each application startup connection
+
     Repository is created to interact with entity in terms of create, read, update and delete operations (CRUD)
 
     JpaRepository -> Interface providing a set of methods for performing CRUD operations on a database, which will be
                      extended by our repository class. It is a generic interface taking in our entity class and it's
                      primary key
+
+  b.
+    CommandLineRunner interface provides the functionality to run the command line arguments.
+    Making the UserDetailsCommandLineRunner implementing the CommandLineRunner and making it as a component enables
+    the run method to execute during the server startup
+
+    Inject the UserDetailsRepository into the command line runner class using constructor injection
+    Then in run method, invoke the repository.save() (JPARepository method which internally invokes hibernate API) to
+    add/update the user details. This will directly save the details to DB.
+
+    application.properties -> spring.jpa.show-sql=true shows the sql statements getting generated as part of the JPA
+                              operations.
+
+    These save commands (insert/update internally from hibernate) are run with the application run because of the
+    CommandLineRunner utility
+
+    findAll() -> this method needs a default constructor to be created in the entity class since JPA creates an
+                 entity object and populate the DB details in the entity class (select query)
+
+    JpaRepository interface provides many such default methods which can be explored (findById, deleteAll, etc..)
+
+    Custom method to retrieve user by role -> add corresponding logic in UserDetailsRepository -> name should match the
+    attribute name in the entity (here it is findByRole, if we name as findRole then it will create a query parsing
+    error)

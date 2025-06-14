@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity
-public class UserDetails {
+public class UserDetailsEntity {
 
     @Id
     @GeneratedValue
@@ -14,7 +14,10 @@ public class UserDetails {
     private String name;
     private String role;
 
-    public UserDetails(String name, String role) {
+    public UserDetailsEntity() {
+    }
+
+    public UserDetailsEntity(String name, String role) {
         this.name = name;
         this.role = role;
     }
