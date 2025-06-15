@@ -45,9 +45,9 @@ public class SurveyController {
 
     // GET /surveys/{surveyId}/questions/{questionId}
     @RequestMapping("/surveys/{surveyId}/questions/{questionId}")
-    public Question retrieveQuestionsForSurvey(@PathVariable String surveyId,
-                                                     @PathVariable String questionId) {
-        Question questionById = surveyService.retrieveQuestionById(surveyId, questionId);
+    public Question retrieveSurveyQuestionById(@PathVariable String surveyId,
+                                               @PathVariable String questionId) {
+        Question questionById = surveyService.retrieveSurveyQuestionById(surveyId, questionId);
         if(questionById == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         return questionById;

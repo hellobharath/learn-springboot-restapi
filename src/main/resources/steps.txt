@@ -168,7 +168,7 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
     Above JPARepository interface also recursively extends PagingAndSortingRepository which provides the details of the
     entity as REST API endpoints (over localhost:8080)
 
-10. Unit and integration test for spring boot
+10. Integration test for spring boot
 
     Unit test -> testing a unit of functionality in any of the layers (controller/service/respository/entity)
     Integration test -> testing the entire flow across all the layers of the application (controller -> service ->
@@ -231,3 +231,21 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
      that should not affect the other tests
 
      Resolve side effect -> Immediately after hitting the POST request, delete the created item
+
+11. Unit Test in springboot
+
+    Unit test is written to test a unit in isolation to verify it's functionality. If the functionality is dependent on
+    external dependencies, then we mock those dependencies
+
+    @WebMvcTest -> only loads the controller specific context rather than the complete application context (with the
+                   controller method class as parameter
+
+    Error -> Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.example.springboot.first_rest_api.survey.SurveyService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+             	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:2280)
+
+    This means there is an underlying dependency which is not added/mocked. Solution is to add the underlying dependency
+    (SurveyService) as a @MockitoBean
+
+    MockMvc -> can be used to fire a request for mocking purpose
+    Without mocking, the request fire will only return 404 (no status)
+    Hence we need stubbing of methods (when().thenReturn())
