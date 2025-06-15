@@ -116,11 +116,16 @@ class SurveyControllerIT {
         // fire the request
         ResponseEntity<String> responseEntity =
                 testRestTemplate.exchange(ALL_QUESTION_URLS, HttpMethod.POST, httpEntity, String.class);
+        String locationHeader = responseEntity.getHeaders().get("Location").get(0);
 
 //        Response Header: [content-length:"0", date:"Sun, 15 Jun 2025 11:20:06 GMT", location:"http://localhost:55749/surveys/survey1/questions/1214278348"]
 
         assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        assertTrue(responseEntity.getHeaders().get("Location").get(0).contains("/surveys/survey1/questions"));
+        assertTrue(locationHeader.contains("/surveys/survey1/questions"));
+
+        // To resolve the side effect of get list test failing, delete the posted request by passing a DELETE request to
+        // the same endpoint
+        testRestTemplate.delete(locationHeader);
     }
 
 }

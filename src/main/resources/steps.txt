@@ -227,4 +227,7 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
      relative path (/surveys/survey1/questions)
 
      But here, if we run all ITs, then add (POST) gets called first, and that makes the GET list test to fail due to
-     element count mismatch
+     element count mismatch (side effect). This cannot be controlled since junit can run the tests in any order, but
+     that should not affect the other tests
+
+     Resolve side effect -> Immediately after hitting the POST request, delete the created item
