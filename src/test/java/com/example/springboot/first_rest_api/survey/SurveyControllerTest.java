@@ -5,6 +5,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -14,6 +15,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 // Just launch the web controller context
@@ -32,6 +36,7 @@ class SurveyControllerTest {
     private MockMvc mockMvc;
 
     private static String SPECIFIC_QUESTION_URL = "http://localhost:8080/surveys/Survey1/questions/Question1";
+    private static String GENERIC_QUESTION_URL = "http://localhost:8080/surveys/Survey1/questions";
 
     @Test
     void retrieveSurveyQuestionById_errorScenario_404() throws Exception {
@@ -64,8 +69,37 @@ class SurveyControllerTest {
                     "correctAnswer":"AWS"
                 }
                 """;
-        assertEquals(200, mvcResult.getResponse().getStatus());
-        JSONAssert.assertEquals(expectedResponse, mvcResult.getResponse().getContentAsString(), false);
+        MockHttpServletResponse response = mvcResult.getResponse();
+        assertEquals(200, response.getStatus());
+        JSONAssert.assertEquals(expectedResponse, response.getContentAsString(), false);
     }
 
+    /**
+     * add new survey question -> POST /surveys/Survey1/questions
+     * assert on response status and response header (location)
+     */
+    @Test
+    public void addNewSurveyQuestion_basicScenario() throws Exception {
+        String requestBody = """
+            {
+                "description": "Fastest programming language",
+                "options": ["Java","Python","C++","JavaScript"],
+                "correctAnswer": "C++"
+            }
+            """;
+        when(surveyService.addNewSurveyQuestion(anyString(), any())).thenReturn("SOME_ID");
+        RequestBuilder requestBuilder =
+                MockMvcRequestBuilders.post(GENERIC_QUESTION_URL)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody);
+
+        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+
+        MockHttpServletResponse response = mvcResult.getResponse();
+        String locationHeader = response.getHeader("Location");
+
+        assertEquals(201, response.getStatus());
+        assertTrue(locationHeader.contains("/surveys/Survey1/questions/SOME_ID"));
+    }
 }

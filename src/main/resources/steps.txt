@@ -234,6 +234,7 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
 
 11. Unit Test in springboot
 
+  a.
     Unit test is written to test a unit in isolation to verify it's functionality. If the functionality is dependent on
     external dependencies, then we mock those dependencies
 
@@ -249,3 +250,8 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
     MockMvc -> can be used to fire a request for mocking purpose
     Without mocking, the request fire will only return 404 (no status)
     Hence we need stubbing of methods (when().thenReturn())
+
+    TODO: UT for GET questions for a survey
+
+  b.
+    Add survey question -> POST /surveys/{surveyId}/questions
