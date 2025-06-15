@@ -200,3 +200,15 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
                   strict parameter -> boolean value which helps in strict compare (all fields) if true
                                       if false, only compares with the existing fields
                                       (Ex: if we dont want to compare description, or timestamp)
+
+    General steps for a rest api integration test: Assert first on the status code, then on the content type (from
+    header) and lastly on the response body
+
+  b. Integration test 2 -> GET /surveys/survey1/questions
+
+     This also includes asserting on the response status (if it is equal to any of 2xx), and asserting on the content
+     type (recieved from header)
+
+     Try to keep the junit tests concise by asserting on the most important parts
+
+  c. Excercise (TODO) -> IT for GET /surveys and GET /surveys/survey1
