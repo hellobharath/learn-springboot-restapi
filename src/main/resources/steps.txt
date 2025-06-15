@@ -212,3 +212,19 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
      Try to keep the junit tests concise by asserting on the most important parts
 
   c. Excercise (TODO) -> IT for GET /surveys and GET /surveys/survey1
+  d. IT 3 -> POST /surveys/{surveyId}/questions
+
+     POST needs a response body to be sent to the endpoint, and it returns a status and header with location (which can
+     be retrieved using GET)
+
+     similar to getForEntity, we have postForEntity method, but it needs more configuration needed to pass headers and
+     body, hence we can use exchange method which is much more versatile
+
+     Use HttpHeaders variable to add the header type, httpentity to combine header and body, and exchange to fire the
+     request
+
+     Location header may contain different port and question id each time when run -> so we can only assert on the
+     relative path (/surveys/survey1/questions)
+
+     But here, if we run all ITs, then add (POST) gets called first, and that makes the GET list test to fail due to
+     element count mismatch
