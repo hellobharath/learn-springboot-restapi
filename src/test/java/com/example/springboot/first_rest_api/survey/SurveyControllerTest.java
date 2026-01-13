@@ -3,6 +3,7 @@ package com.example.springboot.first_rest_api.survey;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.when;
 
 // Just launch the web controller context
 @WebMvcTest(controllers = SurveyController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class SurveyControllerTest {
     /**
      * UT for retrieveSurveyQuestionById controller method

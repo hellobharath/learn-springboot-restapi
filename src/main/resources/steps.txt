@@ -211,7 +211,7 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
 
      Try to keep the junit tests concise by asserting on the most important parts
 
-  c. Excercise (TODO) -> IT for GET /surveys and GET /surveys/survey1
+  c. Exercise (TODO) -> IT for GET /surveys and GET /surveys/survey1
   d. IT 3 -> POST /surveys/{surveyId}/questions
 
      POST needs a response body to be sent to the endpoint, and it returns a status and header with location (which can
@@ -255,3 +255,35 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
 
   b.
     Add survey question -> POST /surveys/{surveyId}/questions
+
+12. Spring security
+
+    This is used to secure the endpoints. Can get started by adding spring boot starter security dependency in pom.xml
+    Default behaviour is that any endpoint is secured using spring security, and the landing page asks for credentials
+    (user, generated security password from application startup logs)
+
+    Custom spring security credentials configuration knowledge:
+
+    a. InMemoryUserDetailsManager stores the custom UserDetails, which in turn contains username and password
+    b. This in turn uses BCryptPasswordEncoder for encoding the password, then storing the username, password and
+        password encoding details in a UserDetails object
+    c. Running test cases with this code causes the UTs and ITs to fail, due to 4xx error
+
+    Fixing UTs/ITs:
+
+    a. Fixing UTs: Add @AutoConfigureMockMvc(addFilters = false) at the class level so that any additional filters
+                    (security filters here) will not be added in the test context
+
+    b. Fixing ITs:
+       -> Since they represent the test cases of the whole application, we need to use spring security inside this test
+          for authentication/authorization
+
+       -> Pass the basic authorization in the header
+       -> Proper solution:
+          :- create a utility method to encode the username and password combination to a byte array
+          :- Convert the byte array to string
+          :- Now add the authorization part with Basic + encoded credential in the header and pass it
+          :- Replace any instances of getForEntity or postForEntity with exchange, which is more flexible in terms of
+             passing the headers as a parameter
+
+       These will ensure that the tests pass

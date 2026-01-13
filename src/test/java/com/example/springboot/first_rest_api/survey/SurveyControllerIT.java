@@ -11,6 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Base64;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -37,6 +39,13 @@ class SurveyControllerIT {
     // GET http://localhost:RANDOM_PORT/surveys/survey1/questions/question1
     @Test
     void retrieveSpecificQuestionForSurvey_basicScenario() throws JSONException {
+
+        // Prepare request header
+        HttpHeaders httpHeaders = createHttpContentTypeAndAuthorizationHeaders();
+
+        // Combine both request header and body
+        HttpEntity<String> httpEntity = new HttpEntity(null, httpHeaders);
+
         // Arrange -> not required here since we are firing a get request, and endpoint defined above
         String expectedResponseBody = """
                 {
@@ -46,7 +55,9 @@ class SurveyControllerIT {
                 }
                 """;
         // Act -> firing request
-        ResponseEntity<String> responseEntity = testRestTemplate.getForEntity(SPECIFIC_QUESTION_URL, String.class);
+//        ResponseEntity<String> responseEntity = testRestTemplate.getForEntity(SPECIFIC_QUESTION_URL, String.class);
+        ResponseEntity<String> responseEntity =
+                testRestTemplate.exchange(SPECIFIC_QUESTION_URL, HttpMethod.GET, httpEntity, String.class);
 
         // Assert status of response = 200
         assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
@@ -77,7 +88,15 @@ class SurveyControllerIT {
                 ]
                 """;
 
-        ResponseEntity<String> responseEntity = testRestTemplate.getForEntity(ALL_QUESTION_URLS, String.class);
+        // Prepare request header
+        HttpHeaders httpHeaders = createHttpContentTypeAndAuthorizationHeaders();
+
+        // Combine both request header and body
+        HttpEntity<String> httpEntity = new HttpEntity(null, httpHeaders);
+
+//        ResponseEntity<String> responseEntity = testRestTemplate.getForEntity(ALL_QUESTION_URLS, String.class);
+        ResponseEntity<String> responseEntity =
+                testRestTemplate.exchange(ALL_QUESTION_URLS, HttpMethod.GET, httpEntity, String.class);
 
         assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
         assertEquals("application/json", responseEntity.getHeaders().get("Content-Type").get(0));
@@ -98,8 +117,7 @@ class SurveyControllerIT {
     void addNewSurveyQuestion_basicScenario() {
 
         // Prepare request header
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Content-Type", "application/json");
+        HttpHeaders httpHeaders = createHttpContentTypeAndAuthorizationHeaders();
 
         // Request body
         String requestBody = """
@@ -125,7 +143,28 @@ class SurveyControllerIT {
 
         // To resolve the side effect of get list test failing, delete the posted request by passing a DELETE request to
         // the same endpoint
-        testRestTemplate.delete(locationHeader);
+        ResponseEntity<String> responseEntityDelete =
+                testRestTemplate.exchange(locationHeader, HttpMethod.DELETE, httpEntity, String.class);
+        assertTrue(responseEntityDelete.getStatusCode().is2xxSuccessful());
+//        testRestTemplate.delete(locationHeader);
+    }
+
+    private HttpHeaders createHttpContentTypeAndAuthorizationHeaders() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Content-Type", "application/json");
+        httpHeaders.add("Authorization", "Basic " +
+                                        performBasicAuthEncoding("user", "password"));
+        return httpHeaders;
+    }
+
+    String performBasicAuthEncoding(String username, String password) {
+        String combined = username + ":" + password;
+
+        // Base64 encode string -> will serialize/convert to bytes
+        byte[] encodedByteStream = Base64.getEncoder().encode(combined.getBytes());
+
+        // Deserialize/convert bytes to String
+        return new String(encodedByteStream);
     }
 
 }
