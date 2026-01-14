@@ -62,7 +62,7 @@ public class SpringSecurityConfiguration {
 		
 		http.authorizeHttpRequests(
 				auth -> auth.anyRequest().authenticated());
-		http.httpBasic(withDefaults());
+		http.formLogin(withDefaults());
 		
 		http.csrf(AbstractHttpConfigurer::disable); // disable for now to test out POST and PUT
 		http.headers(headers -> headers.frameOptions(

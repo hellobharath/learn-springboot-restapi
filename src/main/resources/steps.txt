@@ -287,3 +287,15 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
              passing the headers as a parameter
 
        These will ensure that the tests pass
+
+13. Swagger and OpenApi specifications
+
+    OpenApi specification is a specification that governs the API documentation in an automated way rather than manual
+    maintenance. Swagger is a toolset that conforms to the OpenApi standards/specification
+
+    Steps:
+    1. Include springdoc-openapi-starter-webmvc-ui dependency in pom.xml (Seems that 2.7.0 version works well for spring
+       boot 3.5
+    2. Go to localhost:8080/swagger-ui.html (which will redirect to localhost:8080/swagger-ui/index.html) where we can
+       view the documentation, api endpoints in a visual format
+    3. Corresponding v3/api-docs URL takes us to the JSON format openapi specification
