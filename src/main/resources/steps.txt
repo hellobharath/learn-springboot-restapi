@@ -329,4 +329,5 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
         code.
 
         messages.properties is similar to application.properties in an i18n context and externalizing application
-        messages. Use message_kn and pass Accept-Language = kn in the request header to invoke kn's message (Kannada)
+        messages. Use messages_kn.properties and pass Accept-Language = kn in the request header to invoke kn's message
+        (Kannada), hn for Hindi, etc...
