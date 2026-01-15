@@ -294,8 +294,39 @@ Ex: Resource not found -> 404, validation error -> 400, server exception -> 500,
     maintenance. Swagger is a toolset that conforms to the OpenApi standards/specification
 
     Steps:
-    1. Include springdoc-openapi-starter-webmvc-ui dependency in pom.xml (Seems that 2.7.0 version works well for spring
+    a. Include springdoc-openapi-starter-webmvc-ui dependency in pom.xml (Seems that 2.7.0 version works well for spring
        boot 3.5
-    2. Go to localhost:8080/swagger-ui.html (which will redirect to localhost:8080/swagger-ui/index.html) where we can
+    b. Go to localhost:8080/swagger-ui.html (which will redirect to localhost:8080/swagger-ui/index.html) where we can
        view the documentation, api endpoints in a visual format
-    3. Corresponding v3/api-docs URL takes us to the JSON format openapi specification
+    c. Corresponding v3/api-docs URL takes us to the JSON format openapi specification
+
+14. Content negotiation
+
+    A way for consumer to tell the REST API provider the type of response representation that they want, since same
+    resource can have different representations (Consumer and service provider negotiate with each other)
+
+    -> Sample usecases: Content type needed in xml by consumer for json response
+                        Hindi response needed when output is in English
+
+    Ex: Accept header (MIME types - accept/json, accept/xml)
+        Accept-language header (en, nl, fr, etc..)
+
+    Sample xml acceptance dependency:
+    <dependency>
+        <groupId>com.fasterxml.jackson.dataformat</groupId>
+        <artifactId>jackson-dataformat-xml</artifactId>
+    </dependency>
+
+15. Internationalization (i18n) of REST Api
+
+    Customizing REST Api to users across the world (achieved using Accept-Language)
+    a. Define file with required values -> messages.properties
+    2. Write the code to support this:
+       a. Define MessageSource
+       b. Inject the MessageSource in the controller using constructor injection
+
+        This ensures that any value defined in messages.properties are picked by MessageSource and then accessed in the
+        code.
+
+        messages.properties is similar to application.properties in an i18n context and externalizing application
+        messages. Use message_kn and pass Accept-Language = kn in the request header to invoke kn's message (Kannada)

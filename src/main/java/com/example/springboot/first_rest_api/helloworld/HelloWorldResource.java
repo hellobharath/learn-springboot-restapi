@@ -1,12 +1,23 @@
 package com.example.springboot.first_rest_api.helloworld;
 
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Locale;
+
 @RestController
 public class HelloWorldResource {
     // hello-world => "Hello world"
+
+    private MessageSource messageSource;
+
+    public HelloWorldResource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
     @RequestMapping("/hello-world")
     public String helloWorld() {
@@ -32,6 +43,18 @@ public class HelloWorldResource {
     public HelloWorldBean helloWorldBeanMultiPathParam(@PathVariable String name,
                                                        @PathVariable String message) {
         return new HelloWorldBean("Hello world, "+name+", Message passed: "+message);
+    }
+
+    @GetMapping(path = "/hello-world-internationalized")
+    public String helloWorldInternationalized() {
+        Locale locale = LocaleContextHolder.getLocale();
+        return messageSource.getMessage("good.morning.message", null, "Default message", locale);
+
+        /**
+         * Steps for internationalization:
+         * 1. Defining the values for different languages -> done using messages.properties
+         * 2. Write the code to pick those values
+         */
     }
 
 }
